@@ -41,6 +41,6 @@ Função utilitária:
 	}
       
 echo('<pre>');
-var_dump(getMenus('menu-xpto'));
+var_dump(getMenus('menu-1'));
 echo('</pre>');
 ```
