@@ -67,5 +67,19 @@ echo('</pre>');
 
                 dbDelta( $sqlCreateTable );
             }
+	    
+	    //
+	    
+	    // Exemplo drop de tabela ao desativar um determinado plugin
+	    register_deactivation_hook( __FILE__, 'my_plugin_remove_database' );
+function my_plugin_remove_database() {
+     global $wpdb;
+     $table_name = $wpdb->prefix . 'table_name';
+     $sql = "DROP TABLE IF EXISTS $table_name";
+     $wpdb->query($sql);
+     delete_option("my_plugin_db_version");
+}   
 
 ```
+
+
