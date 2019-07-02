@@ -44,3 +44,28 @@ echo('<pre>');
 var_dump(getMenus('menu-1'));
 echo('</pre>');
 ```
+## WPDB - Manipulação de dados com wordpress
+### Criar uma tabela custom no wordpress (utilizado por exemplo na ativação do plugin)
+```php
+            function createCustomTable($dropTable = false) {
+                global $wpdb;
+
+                require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+                $table_name = $wpdb->prefix . "custom_table";
+                $charset_collate = $wpdb->get_charset_collate();
+
+                if($dropTable) {
+                    $sqlDropTable = "DROP TABLE IF EXISTS $table_name" ;
+                    $wpdb->query($sqlDropTable);
+                }
+
+                // SQL para criar a tabela custom
+                $sqlCreateTable = "CREATE TABLE IF NOT EXISTS $table_name (
+                    id int(10)
+                  ) $charset_collate";
+
+                dbDelta( $sqlCreateTable );
+            }
+
+```
