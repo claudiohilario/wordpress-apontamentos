@@ -25,6 +25,7 @@ class Movies_reviews {
 
      private function __construct() {
         add_action( 'init', 'Movies_reviews::register_post_type' );
+        add_action('init', 'Movies_reviews::register_taxonomies');
         add_action('tgmpa_register', array($this, 'check_required_plugins'));
     }
 
@@ -48,6 +49,21 @@ class Movies_reviews {
             'menu_icon' => 'dashicons-format-video', // Icons Menu Full List: https://developer.wordpress.org/resource/dashicons/#format-video
             'menu_position' => 3,
         ));
+    }
+
+    public static function register_taxonomies() {
+        register_taxonomy('movie_types', array('movies_reviews'), 
+            array(
+                'labels' => array(
+                    'name' => __('Movies Types'),
+                    'singular_name' => __('Movie Type'),   
+                ),
+                'public' => true,
+                'hierarchical' => true,
+                'rewrite' => array('slug' => 'movie-types'),
+
+            )
+        );
     }
 
     /**
@@ -117,6 +133,7 @@ class Movies_reviews {
 
     public static function activate() {
         self::register_post_type();
+        self::register_taxonomies();
         flush_rewrite_rules(); // https://developer.wordpress.org/reference/functions/flush_rewrite_rules/
     }
  }
