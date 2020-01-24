@@ -10,7 +10,7 @@
  * License: MIT
  */
 
- class Movies_Reviews {
+ class Movies_reviews {
      private static $instance;
 
      public static function getInstance() {
@@ -22,10 +22,10 @@
      }
 
      private function __construct() {
-        add_action( 'init', array($this, 'register_post_type') );
+        add_action( 'init', 'Movies_reviews::register_post_type' );
     }
 
-    function register_post_type() {
+    public static function register_post_type() {
         register_post_type('movies_reviews', array(
             'labels' => array(
                 'name' => 'Movies Reviews',
@@ -46,6 +46,14 @@
             'menu_position' => 3,
         ));
     }
+
+    public static function activate() {
+        self::register_post_type();
+        flush_rewrite_rules(); // https://developer.wordpress.org/reference/functions/flush_rewrite_rules/
+    }
  }
 
- Movies_Reviews::getInstance();
+ Movies_reviews::getInstance();
+
+ register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
+ register_activation_hook(__FILE__, 'Movies_reviews::activate');
