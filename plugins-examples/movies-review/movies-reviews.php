@@ -28,7 +28,10 @@ class Movies_reviews {
         add_action('init', 'Movies_reviews::register_taxonomies');
         add_action('tgmpa_register', array($this, 'check_required_plugins'));
         add_filter( 'rwmb_meta_boxes', array($this, 'metabox_custom_fields'));
-        
+
+        /** TEMPLETE CUSTOM */
+        add_action('template_include', array($this, 'add_cpt_template'));
+        add_action('wp_enqueue_scripts', array($this, 'add_style_scripts'));
     }
 
     public static function register_post_type() {
@@ -182,6 +185,23 @@ class Movies_reviews {
         );
 
         return $metabox;
+    }
+
+    function add_cpt_template($template) {
+        if(is_singular('movies_reviews')) {
+
+            if(file_exists(get_stylesheet_directory().'single-movie_review.php')) {
+                return get_stylesheet_directory().'single-movie_review.php';
+            }
+
+            return plugin_dir_path( __FILE__ ).'single-movie_review.php';
+        }
+
+        return $template;
+    }
+
+    function add_style_scripts() {
+        wp_enqueue_style( 'movie-review-style', plugin_dir_url(__FILE__).'movies-reviews.css');
     }
 
     public static function activate() {
