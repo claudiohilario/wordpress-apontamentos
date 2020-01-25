@@ -27,6 +27,8 @@ class Movies_reviews {
         add_action( 'init', 'Movies_reviews::register_post_type' );
         add_action('init', 'Movies_reviews::register_taxonomies');
         add_action('tgmpa_register', array($this, 'check_required_plugins'));
+        add_filter( 'rwmb_meta_boxes', array($this, 'metabox_custom_fields'));
+        
     }
 
     public static function register_post_type() {
@@ -111,6 +113,75 @@ class Movies_reviews {
             )
           );
           tgmpa( $plugins, $config );
+    }
+
+    /**
+     * META BOX (metabox.io)
+     */
+    public function metabox_custom_fields() {
+        $metabox[] = array(
+            'id' => 'date_movie',
+            'title' => __('Additional Informations', $this->text_domain),
+            'pages' => array('movies_reviews', 'post'),
+            'context' => 'normal',
+            'priority' => 'high',
+
+            'fields' => array(
+                array(
+                    'name' => __('Release year', $this->text_domain),
+                    'desc' => __('Year the film was released', $this->text_domain),
+                    'id' => $this->field_prefix.'movie_year',
+                    'type' => 'number',
+                    'std' => date('Y'),
+                    'min' => '1880',
+                ),
+                array(
+                    'name' => __('Director', $this->text_domain),
+                    'desc' => __('Who directed the film', $this->text_domain),
+                    'type' => 'text',
+                    'std' => '',
+                ),
+                array(
+                    'name' => __('Site', $this->text_domain),
+                    'desc' => __('The site of the movie', $this->text_domain),
+                    'id' => $this->field_prefix.'movie_site',
+                    'type' => 'url',
+                    'std' => '',
+                )
+            )
+        );
+
+        $metabox[] = array(
+            'id' => 'review_data',
+            'title' => __('Movie Review', $this->text_domain),
+            'pages' => array('movies_reviews'),
+            'context' => 'side',
+            'priority' => 'high',
+            'fields' => array(
+                array(
+                    'name' => __('Rating', $this->text_domain),
+                    'desc' => __('Em uma escala de 1 - 10, sendo 10 a melhor nota', $this->text_domain),
+                    'id' => $this->field_prefix.'review_rating',
+                    'type' => 'select',
+                    'options' => array(
+                        '' => __('Avaliar', $this->text_domain),
+                        1 => __('1 - Gostei um pouco', $this->text_domain),
+                        2 => __('2 - Gostei mais ou menos', $this->text_domain),
+                        3 => __('3 - Não recomendo', $this->text_domain),
+                        4 => __('4 - Deu para assistir', $this->text_domain),
+                        5 => __('5 - Filme decente', $this->text_domain),
+                        6 => __('6 - Bom filme ', $this->text_domain),
+                        7 => __('7 - Bom, recomendo', $this->text_domain),
+                        8 => __('8 - O meu favorito', $this->text_domain),
+                        9 => __('9 - Gostei muito, um dos melhores filmes', $this->text_domain),
+                        10 => __('10 - O melhor filme, recomendo', $this->text_domain),
+                    ),
+                    'std' => '',
+                )
+            )
+        );
+
+        return $metabox;
     }
 
     public static function activate() {
