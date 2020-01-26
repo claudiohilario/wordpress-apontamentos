@@ -14,6 +14,8 @@ require dirname(__FILE__).'/lib/class-tgm-plugin-activation.php';
 class Movies_reviews {
      private static $instance;
      private $text_domain = 'movies-reviews';
+     private $field_prefix = "mr_";
+     public static $field_prefix_1 = 'mr_';
 
      public static function getInstance() {
          if(!self::$instance) {
