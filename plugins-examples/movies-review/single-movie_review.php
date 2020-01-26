@@ -29,13 +29,13 @@
 
                 $movie_type = '';
 
-                if($movies_category && !is_wp_error( $movies_category )) {
+                if($movies_category && !is_wp_error( $movies_category )) :
                     $movie_type = array();
 
-                    foreach ($movies_category as $cat) {
+                    foreach ($movies_category as $cat) :
                         $movie_type[] = $cat->name;               
-                    }
-                }
+                    endforeach;
+                endif;
 
                 ?>
 
@@ -44,40 +44,102 @@
                         <?php the_title('<h1 class="entry-title">', '</h1>') ?>
                     </header>
 
-                </article>
+                
 
-                <div class="entry-content">
-                    <div class="left">
+                    <div class="entry-content">
+                        <div class="left">
                         <?php
-                            if(isset($image)) {
+                        if(isset($image)) :
                         ?>
                             <div class="poster">
-                                <?php  
-                                    if(isset($link_site)) {
-
+                                <?php 
+                                if(isset($link_site)) :
                                 ?>
-                                    <a href="<?php print $link_site ?>" target="_blank">
-                                        <?=$image; ?>
-                                    </a>
-                            
+                                <a href="<?php print $link_site ?>" target="_blank">
+                                    <?=$image; ?>
+                                </a>
                                 <?php
+                                else:
+                                    echo $image;
+                                endif;
+                        endif;
+                        ?>
 
-                                    }
-                                    else {
-                                        echo $image;
-                                    }
-                            }
-                        ?>  
-                            </div>                  
+                        <?php if(!empty($show_rating)): ?>
+                            <div class="rating rating-<?php print $rating; ?>">
+                                <?php print $show_rating; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="movie-meta">
+                            <?php if(!empty($director)) : ?>
+                                <label>Dirigido por:</label> <?php echo $director ?>
+                            <?php endif; ?>
+                            <?php if(!empty($movies_category)) : ?>
+                                <div class="tipo">
+                                    <label>Género:</label> 
+                                    <?php 
+                                        foreach ($movie_type as $type) {
+                                            echo ' / ' . $type;
+                                        }
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if(!empty($year)) : ?>
+                                <div class="lancamento-ano">
+                                    <label>Ano:</label> <?php echo $year ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if(!empty($link_site)) : ?>
+                                <div class="link">
+                                    <label>Site:</label> 
+                                    <?php echo '<a href="'.$link_site.'" target="__blank">Visitar Site</a>'; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="right">
+                                <div class="review-body">
+                                    <?php the_content(); ?>
+                                </div>
+                            
+                            </div>
+
+
+                        </div>
+
+                                </div>                  
+                        </div>
                     </div>
-                
-                </div>
 
-        <?php
+                    <?php
+                        edit_post_link(__('Editar'), '<footer class="entry-footer"><span class=""edit-link> </span>', '</span> </footer>');
+                    ?>
+                </article>
 
-            endwhile;
-        
-        ?>
+                <?php
+                    /** Comentários */
+                    if(comments_open() || get_comments_number() ) : 
+                        comments_template();
+                    endif;
+
+                    /** NAVEGAÇÃO */
+                    the_post_navigation( 
+                        array(
+                            'next_text' => '<span class="meta-nav" aria-hidden="true">'.__('Próximo').'</span>'.
+                                           '<span class="screen-reader-text">'.__('Próximo Review').'</span>'.
+                                           '<span class="post-title"> %title </span>',
+                            'prev_text' => '<span class="meta-nav" aria-hidden="true">'.__('Anterior').'</span>'.
+                                           '<span class="screen-reader-text">'.__('Review Anterior').'</span>'.
+                                           '<span class="post-title"> %title </span>',
+                        )
+                     )
+                ?>
+
+
+
+        <?php endwhile; ?>
     </main>
 </div>
 
