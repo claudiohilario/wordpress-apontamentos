@@ -143,6 +143,7 @@ class Movies_reviews {
                 array(
                     'name' => __('Director', $this->text_domain),
                     'desc' => __('Who directed the film', $this->text_domain),
+                    'id' => $this->field_prefix.'movie_director',
                     'type' => 'text',
                     'std' => '',
                 ),
