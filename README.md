@@ -81,5 +81,25 @@ function my_plugin_remove_database() {
 }   
 
 ```
+# Templates
 
+## Ficheiros que compõem um template no Wordpress
+
+* **index.php** - Ficheiro correspondente à página principal e é necessário em todos os templates.
+* **style.css** - Ficheiro de folha de estilo principal. É necessário em todos os Templates e contém o cabeçalho de informação do template.
+* **single.php** - Ficheiro de artigo único é usado quando é solicitado um único artigo.
+* **single-{post-type}.php** - Ficheiro de artigo único correspondente a um determinado tipo de post personalizado.
+* **archive.php** - O ficheiro archive é usado quando são solicitadas arquivos por categoria, autor ou data. Nota: Este ficheiro é substituído se houver modelos mais específicos como category.php, author.php e date.php.
+* **archive-{post-type}.php** - Este ficheiro é usado quando são solicitados artigos de um tipo de post personalizado.
+* **searchform.php** - Corresponde ao formulário de pesquisa
+* **search.php** - Este ficheiro é usado para mostrar resultados de uma determinada pesquisa.
+* **404.php** - Este ficheiro é usado quando o wordpress não consegue localizar um post, página ou outro conteúdo.
+* **comments.php** - Ficheiro que corresponde ao template dos comentários.
+* **footer.php** - Ficheiro que corresponde ao rodapé.
+* **header.php** - Ficheiro que corresponde ao cabeçalho.
+* **sidebar.php** - Ficheiro que corresponde à barra lateral.
+* **page.php** - Este ficheiro é usado quando é solicitada uma página específica.
+* **tag.php** - Este ficheiro é usado quando são solicitados posts por tag.
+* **screenshot.png** - Imagem do template (Aparece no painel de controlo do Wordpress).
+* **functions.php** - Permite adicionar recursos.
 
