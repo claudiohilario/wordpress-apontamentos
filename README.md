@@ -103,3 +103,43 @@ function my_plugin_remove_database() {
 * **screenshot.png** - Imagem do template (Aparece no painel de controlo do Wordpress).
 * **functions.php** - Permite adicionar recursos.
 
+# Debug (xdebug) MAMP + VSCODE
+```
+vim /Applications/MAMP/bin/php/php7.4.2/conf/php.ini
+```
+
+```
+[xdebug]
+zend_extension="/Applications/MAMP/bin/php/php7.4.2/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so"
+xdebug.remote_enable=1
+xdebug.remote_host=localhost
+xdebug.remote_port=9000
+xdebug.remote_autostart=1
+xdebug.profiler_enable=0
+xdebug.profiler_output_dir="/Applications/MAMP/tmp"
+```
+
+## .vscode/launch.json
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9000
+        }
+    ]
+}
+```
+
